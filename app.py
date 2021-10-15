@@ -1,4 +1,5 @@
 import os
+from collections import defaultdict
 import subprocess
 from os import PathLike
 from typing import List
@@ -36,6 +37,14 @@ class Album:
             if image.fname == fname:
                 return image
         raise KeyError()
+
+    def stats(self):
+        by_iso = defaultdict(lambda: defaultdict(int))
+        unique_exp = set()
+        for image in self.images:
+            by_iso[image.iso][image.exposure] += 1
+            unique_exp.add(image.exposure)
+        return unique_exp, by_iso
 
     @property
     def remote_glob(self):

@@ -1,18 +1,58 @@
-<body>
+<head>
+<style>
+table, td, th {
+    border: 1px solid black;
+    text-align: left;
+}
 
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th {
+    background: lightgray;
+}
+
+.number {
+    text-align: right;
+}
+</style>
+</head>
+
+<body>
+    <h2>Stats</h2>
     <table>
-        <th>
-            <td>Thumbnail</td>
-            <td>Name</td>
-            <td>ISO</td>
-            <td>Exposure</td>
-        </th>
+        <tr>
+            <th>ISO/EXP</th>
+            % for exp in unique_exp:
+            <th class="number">{{exp}}</th>
+            % end
+        </tr>
+        % for iso in by_iso:
+        <tr>
+            <td>{{iso}}</td>
+            % for exp in unique_exp:
+            <td class="number">{{by_iso[iso][exp]}}</td>
+            % end
+        </tr>
+        % end
+    </table>
+
+    <h2>List</h2>
+    <table>
+        <tr>
+            <th>Thumbnail</th>
+            <th>Name</th>
+            <th>ISO</th>
+            <th>Exposure</th>
+        </tr>
         % for image in album.images:
         <tr>
             <td><img src="/thumbs/{{album.unique_name}}/{{image.fname}}"/></td>
             <td>{{image.fname}}</td>
-            <td>{{image.iso}}</td>
-            <td>{{image.exposure}}</td>
+            <td class="number">{{image.iso}}</td>
+            <td class="number">{{image.exposure}}</td>
         </tr>
         % end
     </table>

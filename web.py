@@ -14,7 +14,7 @@ def main():
         lib = app.Library(**yaml.safe_load(fh))
     lib.make_all_thumbnails()
 
-    bottle.run()
+    bottle.run(debug=True)
 
 @route("/")
 def index():
@@ -22,7 +22,9 @@ def index():
 
 @route("/albums/<album_id>")
 def album(album_id):
-    return bottle.template("album.htm", album=lib[album_id])
+    album = lib[album_id]
+    unique_exp, by_iso = album.stats()
+    return bottle.template("album.htm", album=album, unique_exp=unique_exp, by_iso=by_iso)
  
 @route("/thumbs/<album_id>/<fname>")
 def thumb(album_id, fname):
