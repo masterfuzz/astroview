@@ -1,0 +1,13 @@
+paths:
+  thumbs: "~/.cache/astroview/thumbs"
+  exifdb: "~/.config/astroview/exifs"
+albums: []
+defaults:
+  thumbnail:
+    ext: "jpg"
+    size: "200x200"
+    tool: "convert"
+  exif:
+    tool: "exiftool"
+    iso: "ISO"
+    exposure: "ExposureTime"

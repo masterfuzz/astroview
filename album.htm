@@ -1,0 +1,19 @@
+<body>
+
+    <table>
+        <th>
+            <td>Thumbnail</td>
+            <td>Name</td>
+            <td>ISO</td>
+            <td>Exposure</td>
+        </th>
+        % for image in album.images:
+        <tr>
+            <td><img src="/thumbs/{{album.unique_name}}/{{image.fname}}"/></td>
+            <td>{{image.fname}}</td>
+            <td>{{image.iso}}</td>
+            <td>{{image.exposure}}</td>
+        </tr>
+        % end
+    </table>
+</body>
