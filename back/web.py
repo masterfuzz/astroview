@@ -15,15 +15,47 @@ def main():
 
     bottle.run(debug=True)
 
-@route("/")
+@route("/bottleui/")
 def index():
     return bottle.template("index.htm", albums=lib.albums)
 
-@route("/albums/<album_id>")
-def album(album_id):
+@route("/bottleui/albums/<album_id>")
+def uialbum(album_id):
     album = lib[album_id]
     unique_exp, by_iso = album.stats()
     return bottle.template("album.htm", album=album, unique_exp=unique_exp, by_iso=by_iso)
+
+@route("/api/albums")
+def albums():
+    return {
+        "albums": [alb.summary() for alb in lib.albums]
+    }
+
+@route("/api/albums/<album_id>")
+def album(album_id):
+    album = lib[album_id]
+    return album.detail()
+    
+@route("/api/albums/<album_id>/stats")
+def album_stats(album_id):
+    album = lib[album_id]
+    unique_exp, by_iso = album.stats()
+    return {
+        "exposures": list(unique_exp),
+        "exp_by_iso": by_iso
+    }
+
+@route("/api/albums/<album_id>/images")
+def images(album_id):
+    album = lib[album_id]
+    return {
+        "images": [img.detail() for img in album.images]
+    }
+ 
+@route("/api/albums/<album_id>/images/<fname>")
+def image(album_id, fname):
+    album = lib[album_id]
+    return album[fname].detail()
  
 @route("/thumbs/<album_id>/<fname>")
 def thumb(album_id, fname):

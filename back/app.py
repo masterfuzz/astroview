@@ -18,6 +18,16 @@ class Image:
         self.iso = exif['ISO']
         self.exposure = exif['ExposureTime']
 
+    def detail(self):
+        return {
+            "path": self.path,
+            "fname": self.fname,
+            "iso": self.iso,
+            "exposure": self.exposure,
+            "thumbnail": self.thumb_basename,
+            "ordinal": self.ordinal
+        }
+
     @property
     def thumbnail(self):
         return self.album.get_thumbnail_path(self)
@@ -58,6 +68,25 @@ class Album:
         self.notes = []
         self.sequences = []
         self.image_notes = {}
+
+    def detail(self):
+        return {
+            "path": self.path,
+            "glob": self.glob,
+            "images": [img.fname for img in self.images],
+            "unique_name": self.unique_name,
+            "notes": self.notes,
+            "sequences": [seq.name for seq in self.sequences],
+            "image_notes": self.image_notes
+        }
+
+    def summary(self):
+        return {
+            "unique_name": self.unique_name,
+            "path": self.path,
+            "images": len(self.images),
+            "note": self.notes[0] if self.notes else ""
+        }
 
     def load_notes(self):
         if not os.path.exists(self.notes_path):
