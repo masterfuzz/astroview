@@ -1,6 +1,7 @@
 paths:
   thumbs: "~/.cache/astroview/thumbs"
   exifdb: "~/.config/astroview/exifs"
+  notes:  "~/.config/astroview/notes"
 albums: []
 defaults:
   thumbnail:

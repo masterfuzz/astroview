@@ -3,6 +3,9 @@
         % for album in albums:
         <li>
             <a href="/albums/{{album.unique_name}}">{{album.path}}</a>
+            % if album.notes:
+            - {{album.notes[1]}}
+            % end
         </li>
         % end
     </ul>

@@ -10,8 +10,7 @@ lib: app.Library = {}
 def main():
     global lib
     # with open(os.path.join(os.path.abspath(os.path.dirname(sys.argv[0])), "/config.yaml")) as fh:
-    with open("./config.yaml") as fh:
-        lib = app.Library(**yaml.safe_load(fh))
+    lib = app.Library(**app.get_config())
     lib.make_all_thumbnails()
 
     bottle.run(debug=True)

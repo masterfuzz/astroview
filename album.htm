@@ -1,7 +1,7 @@
 <head>
 <style>
 table, td, th {
-    border: 1px solid black;
+    border: 1px solid #ddd; 
     text-align: left;
 }
 
@@ -10,8 +10,8 @@ table {
     width: 100%;
 }
 
-th {
-    background: lightgray;
+th, tr:hover {
+    background-color: #f1f1f1;
 }
 
 .number {
@@ -21,6 +21,18 @@ th {
 </head>
 
 <body>
+    <h2>Notes</h2>
+    <ul>
+        % for note in album.notes:
+        <li>{{note}}</li>
+        % end
+    </ul>
+    <h2>Sequences</h2>
+    <ul>
+        % for seq in album.sequences:
+        <li>{{seq.name}}</li>
+        % end
+    </ul>
     <h2>Stats</h2>
     <table>
         <tr>
@@ -46,6 +58,8 @@ th {
             <th>Name</th>
             <th>ISO</th>
             <th>Exposure</th>
+            <th>Sequence</th>
+            <th>Notes</th>
         </tr>
         % for image in album.images:
         <tr>
@@ -53,6 +67,8 @@ th {
             <td>{{image.fname}}</td>
             <td class="number">{{image.iso}}</td>
             <td class="number">{{image.exposure}}</td>
+            <td>{{album.get_sequences(image)}}</td>
+            <td>{{album.image_notes.get(image.fname, "")}}</td>
         </tr>
         % end
     </table>
