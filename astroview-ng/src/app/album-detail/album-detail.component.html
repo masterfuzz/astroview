@@ -1,0 +1,43 @@
+<h2>Album '{{album.path}}' ({{album.unique_name}})</h2>
+<h3>Notes</h3>
+<ul>
+    <li *ngFor="let note of album.notes">{{note}}</li>
+</ul>
+<h3>Sequences</h3>
+<ul>
+    <li *ngFor="let seq of album.sequences">{{seq}}</li>
+</ul>
+<h3>Stats</h3>
+<table>
+    <tr>
+        <th>ISO/EXP</th>
+        <!-- % for exp in unique_exp: -->
+        <th class="number">exp</th>
+    </tr>
+    <!-- % for iso in by_iso: -->
+    <tr>
+        <td>iso</td>
+        <!-- % for exp in unique_exp: -->
+        <td class="number">by_iso[iso][exp]</td>
+    </tr>
+</table>
+
+<h3>Images</h3>
+<table>
+    <tr>
+        <th>Thumbnail</th>
+        <th>Name</th>
+        <th>ISO</th>
+        <th>Exposure</th>
+        <th>Sequence</th>
+        <th>Notes</th>
+    </tr>
+    <tr *ngFor="let image of album.images">
+        <td><img src="/thumbs/{{album.unique_name}}/{{image}}" /></td>
+        <td>{{image}}</td>
+        <td>Blah</td>
+        <td>Blah</td>
+        <td>Blah</td>
+        <td>Blah</td>
+    </tr>
+</table>
