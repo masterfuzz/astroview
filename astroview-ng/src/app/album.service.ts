@@ -5,6 +5,9 @@ import { Album } from './album';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AlbumList } from './album-list';
 import { AlbumDetail } from './album-detail';
+import { ImageDetailList } from './image-detail-list';
+import { ImageDetail } from './image-detail';
+import { AlbumStats } from './album-stats';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +49,20 @@ export class AlbumService {
       .pipe(
         catchError(this.handleError<AlbumDetail>('getAlbumDetail', undefined))
       )
+  }
 
+  getImages(unique_name: string): Observable<ImageDetail[]> {
+    return this.http.get<ImageDetailList>(`${this.albumUrl}/${unique_name}/images`)
+      .pipe(
+        catchError(this.handleError<ImageDetailList>('getImages', undefined)),
+        map(il => il.images)
+      );
+  }
+
+  getAlbumStats(unique_name: string): Observable<AlbumStats> {
+    return this.http.get<AlbumStats>(`${this.albumUrl}/${unique_name}/stats`)
+      .pipe(
+        catchError(this.handleError<AlbumStats>('getAlbumStats', undefined))
+      )
   }
 }

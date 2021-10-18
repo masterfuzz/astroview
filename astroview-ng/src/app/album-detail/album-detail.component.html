@@ -25,6 +25,7 @@
 <h3>Images</h3>
 <table>
     <tr>
+        <th>Ord</th>
         <th>Thumbnail</th>
         <th>Name</th>
         <th>ISO</th>
@@ -32,12 +33,13 @@
         <th>Sequence</th>
         <th>Notes</th>
     </tr>
-    <tr *ngFor="let image of album.images">
-        <td><img src="/thumbs/{{album.unique_name}}/{{image}}" /></td>
-        <td>{{image}}</td>
-        <td>Blah</td>
-        <td>Blah</td>
-        <td>Blah</td>
-        <td>Blah</td>
+    <tr *ngFor="let image of images">
+        <td>{{image.ordinal}}</td>
+        <td><img src="/thumbs/{{album.unique_name}}/{{image.fname}}" /></td>
+        <td>{{image.fname}}</td>
+        <td>{{image.iso}}</td>
+        <td>{{image.exposure}}</td>
+        <td>sequence</td>
+        <td>notes</td>
     </tr>
 </table>
