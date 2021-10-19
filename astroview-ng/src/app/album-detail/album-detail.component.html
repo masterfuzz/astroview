@@ -1,45 +1,68 @@
 <h2>Album '{{album.path}}' ({{album.unique_name}})</h2>
-<h3>Notes</h3>
-<ul>
-    <li *ngFor="let note of album.notes">{{note}}</li>
-</ul>
-<h3>Sequences</h3>
-<ul>
-    <li *ngFor="let seq of album.sequences">{{seq}}</li>
-</ul>
-<h3>Stats</h3>
-<table>
-    <tr>
-        <th>ISO/EXP</th>
-        <!-- % for exp in unique_exp: -->
-        <th class="number">exp</th>
-    </tr>
-    <!-- % for iso in by_iso: -->
-    <tr>
-        <td>iso</td>
-        <!-- % for exp in unique_exp: -->
-        <td class="number">by_iso[iso][exp]</td>
-    </tr>
-</table>
+
+<div class="card">
+    <h3 class="card-header">Notes</h3>
+    <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item" *ngFor="let note of album.notes">{{note}}</li>
+        </ul>
+    </div>
+</div>
+
+<div class="card">
+    <h3 class="card-header">Sequences</h3>
+    <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item" *ngFor="let seq of album.sequences">{{seq}}</li>
+        </ul>
+    </div>
+</div>
+
+<div class="card">
+    <h3 class="card-header">Stats</h3>
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ISO/EXP</th>
+                    <!-- % for exp in unique_exp: -->
+                    <th class="number">exp</th>
+                </tr>
+            </thead>
+            <!-- % for iso in by_iso: -->
+            <tbody>
+                <tr>
+                    <td>iso</td>
+                    <!-- % for exp in unique_exp: -->
+                    <td class="number">by_iso[iso][exp]</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 
 <h3>Images</h3>
-<table>
+<table class="table table-striped">
+    <thead>
     <tr>
-        <th>Ord</th>
-        <th>Thumbnail</th>
-        <th>Name</th>
-        <th>ISO</th>
-        <th>Exposure</th>
-        <th>Sequence</th>
-        <th>Notes</th>
+        <th scope="col">Ord</th>
+        <th scope="col">Thumbnail</th>
+        <th scope="col">Name</th>
+        <th scope="col">ISO</th>
+        <th scope="col">Exposure</th>
+        <th scope="col">Sequence</th>
+        <th scope="col">Notes</th>
     </tr>
+    </thead>
+    <tbody>
     <tr *ngFor="let image of images">
-        <td>{{image.ordinal}}</td>
-        <td><img src="/thumbs/{{album.unique_name}}/{{image.fname}}" /></td>
+        <th scope="row">{{image.ordinal}}</th>
+        <td><img [src]="'/thumbs/' + album.unique_name + '/' + image.fname" /></td>
         <td>{{image.fname}}</td>
-        <td>{{image.iso}}</td>
+        <td>{{image.iso | number}}</td>
         <td>{{image.exposure}}</td>
         <td>sequence</td>
         <td>notes</td>
     </tr>
+    </tbody>
 </table>

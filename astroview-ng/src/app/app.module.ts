@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { AlbumComponent } from './album/album.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AlbumDetailComponent } from './album-detail/album-detail.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { AlbumDetailComponent } from './album-detail/album-detail.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]
