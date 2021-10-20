@@ -3,7 +3,6 @@ from collections import defaultdict
 import subprocess
 from os import PathLike
 from typing import List
-from progressbar import progressbar
 import json
 from hashlib import md5
 
@@ -196,7 +195,7 @@ class Library:
 
     def make_thumbnails(self, album: Album, pbar=True, overwrite=False):
         os.makedirs(album.thumb_path, exist_ok=True)
-        for image in progressbar(album.images):
+        for image in album.images:
             if os.path.exists(image.thumbnail):
                 print("thumbnail exists " + image.thumbnail)
                 continue
