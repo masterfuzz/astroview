@@ -1,42 +1,21 @@
-<div class="container">
-  <div class="row">
-    <div class="col-lg">
-      <div class="jumbotron">
-        <h1 class="display-4">Albums</h1>
-        <hr class="my-4"/>
-      </div>
-    </div>
-  </div>
-  <div class="row" >
-    <div class="col-md">
-      <span *ngIf="albums.length==0">
-        <div class="alert alert-danger" role="alert">
-            We were unable to find any albums
-        </div>
-      </span>
-    <div class="list-group list-group-flush">
-        <div class="card" *ngFor="let album of albums">
-          <h5 class="card-header">{{album.path}}</h5>
-          <div class="card-body">
-            <!-- <p class="card-text">{{album.images}}</p> -->
-            <!-- <p *ngIf="!album.description" class="card-text"><small>No description provided</small></p> -->
-            <!-- <span class="badge badge-pill badge-light">{{album.id}}</span> -->
-            <a routerLink="/albums/{{album.unique_name}}" class="btn btn-primary">Details</a>
-          </div>
-        </div>
-        <div class="row">&nbsp;</div>
-    </div>
-    </div>
-  </div>
-  <div class="row">&nbsp;</div>
-</div>
+<mat-toolbar>
+  <span>AstroView</span>
+</mat-toolbar>
+<mat-sidenav-container>
+  <mat-sidenav mode="side">
+    <mat-nav-list>
+      <a mat-list-item routerLink="/albums/{{album.unique_name}}" *ngFor="let album of albums">
+        {{album.path}}
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <span *ngIf="albums.length==0">
+        We were unable to find any albums
+    </span>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
 
-<div class="container">
-  <div class="row">
-    <div class="col-lg">
-      <router-outlet></router-outlet>
 
-    </div>
-  </div>
 
-</div>

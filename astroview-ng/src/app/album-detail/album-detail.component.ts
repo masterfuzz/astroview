@@ -24,6 +24,7 @@ export class AlbumDetailComponent implements OnInit {
   album = new AlbumDetail();
   stats = new AlbumStats();
   images: ImageDetail[] = [];
+  displayedColumns: string[] = ['ordinal', 'thumbnail', 'name', 'iso', 'exposure', 'sequence', 'notes'];
 
   filter_exposure?: string | number;
   filter_iso?: number;
