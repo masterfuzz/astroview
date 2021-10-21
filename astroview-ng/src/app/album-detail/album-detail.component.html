@@ -26,18 +26,23 @@
                 <tr>
                     <th>ISO/EXP</th>
                     <!-- % for exp in unique_exp: -->
-                    <th class="number">exp</th>
+                    <th *ngFor="let exp of stats.exposures" class="number">
+                        <a (click)="setFilter(undefined, exp)">{{exp}}</a></th>
                 </tr>
             </thead>
             <!-- % for iso in by_iso: -->
             <tbody>
-                <tr>
-                    <td>iso</td>
+                <tr *ngFor="let iso of stats.exp_by_iso | keyvalue">
+                    <td>
+                        <a (click)="setFilter(iso.key)">{{iso.key}}</a></td>
                     <!-- % for exp in unique_exp: -->
-                    <td class="number">by_iso[iso][exp]</td>
+                    <td *ngFor="let exp of stats.exposures" class="number">
+                        <a (click)="setFilter(iso.key, exp)">
+                        {{iso.value[exp] ?? 0 | number}}</a></td>
                 </tr>
             </tbody>
         </table>
+        <a (click)="setFilter(undefined, undefined)">Clear filter</a>
     </div>
 </div>
 
