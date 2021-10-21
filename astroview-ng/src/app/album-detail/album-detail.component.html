@@ -1,95 +1,99 @@
-<div class="container" fxLayout="column" fxLayout.xs="row" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
-<div fxFlex="30%">
-    <h4>Album '{{album.path}}' ({{album.unique_name}})</h4>
+<div class="container" fxFill fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%" fxLayoutAlign="space-around start">
+    <div class="container" fxLayout="column" fxLayout.xs="row" fxLayoutGap="0.5%" fxLayoutAlign="start none">
+        <mat-card>
+            <mat-card-header>{{album.path}}</mat-card-header>
+            <mat-card-content>{{album.unique_name}}</mat-card-content>
+        </mat-card>
 
-<mat-card>
-    <mat-card-header>Notes</mat-card-header>
-    <mat-card-content>
-        <mat-list>
-            <mat-list-item *ngFor="let note of album.notes">{{note}}</mat-list-item>
-        </mat-list>
-    </mat-card-content>
-</mat-card>
+        <mat-card>
+            <mat-card-header>Notes</mat-card-header>
+            <mat-card-content>
+                <mat-list>
+                    <mat-list-item *ngFor="let note of album.notes">{{note}}</mat-list-item>
+                </mat-list>
+            </mat-card-content>
+        </mat-card>
 
-<mat-card>
-    <mat-card-header>Sequences</mat-card-header>
-    <mat-card-content>
-        <mat-list>
-            <mat-list-item *ngFor="let seq of album.sequences">{{seq}}</mat-list-item>
-        </mat-list>
-    </mat-card-content>
-</mat-card>
+        <mat-card>
+            <mat-card-header>Sequences</mat-card-header>
+            <mat-card-content>
+                <mat-list>
+                    <mat-list-item *ngFor="let seq of album.sequences">{{seq}}</mat-list-item>
+                </mat-list>
+            </mat-card-content>
+        </mat-card>
 
-<mat-card>
-    <mat-card-header>
-        <mat-card-title>Stats</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-        <table>
-            <thead>
-                <tr>
-                    <th>ISO/EXP</th>
-                    <!-- % for exp in unique_exp: -->
-                    <th *ngFor="let exp of stats.exposures" class="number">
-                        <a (click)="setFilter(undefined, exp)">{{exp}}</a></th>
-                </tr>
-            </thead>
-            <!-- % for iso in by_iso: -->
-            <tbody>
-                <tr *ngFor="let iso of stats.exp_by_iso | keyvalue">
-                    <td>
-                        <a (click)="setFilter(iso.key)">{{iso.key}}</a></td>
-                    <!-- % for exp in unique_exp: -->
-                    <td *ngFor="let exp of stats.exposures" class="number">
-                        <button mat-mini-fab color="primary" (click)="setFilter(iso.key, exp)">
-                        {{iso.value[exp] ?? 0 | number}}</button></td>
-                </tr>
-            </tbody>
-        </table>
-        <a (click)="setFilter(undefined, undefined)">Clear filter</a>
-    </mat-card-content>
-</mat-card>
-</div>
-<div fxFlex="70%">
-    <mat-card>
-        <mat-card-header>
-            Images
-        </mat-card-header>
-        <mat-card-content>
-<table mat-table [dataSource]="images" class="mat-elevation-z8">
-    <ng-container matColumnDef="ordinal">
-        <th mat-header-cell *matHeaderCellDef>Ord</th>
-        <td mat-cell *matCellDef="let image">{{image.ordinal}}</td>
-    </ng-container>
-    <ng-container matColumnDef="thumbnail">
-        <th mat-header-cell *matHeaderCellDef>Thumbnail</th>
-        <td mat-cell *matCellDef="let image"><img [src]="'/thumbs/' + album.unique_name + '/' + image.fname" /></td>
-    </ng-container>
-    <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>Name</th>
-        <td mat-cell *matCellDef="let image">{{image.fname}}</td>
-    </ng-container>
-    <ng-container matColumnDef="iso">
-        <th mat-header-cell *matHeaderCellDef>ISO</th>
-        <td mat-cell *matCellDef="let image">{{image.iso | number}}</td>
-    </ng-container>
-    <ng-container matColumnDef="exposure">
-        <th mat-header-cell *matHeaderCellDef>Exposure</th>
-        <td mat-cell *matCellDef="let image">{{image.exposure}}</td>
-    </ng-container>
-    <ng-container matColumnDef="sequence">
-        <th mat-header-cell *matHeaderCellDef>Sequence</th>
-        <td mat-cell *matCellDef="let image">seq</td>
-    </ng-container>
-    <ng-container matColumnDef="notes">
-        <th mat-header-cell *matHeaderCellDef>Notes</th>
-        <td mat-cell *matCellDef="let image">notes</td>
-    </ng-container>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>Stats</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ISO/EXP</th>
+                            <th *ngFor="let exp of stats.exposures" class="number">
+                                <button mat-button (click)="setFilter(undefined, exp)">{{exp}}</button>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let iso of stats.exp_by_iso | keyvalue">
+                            <td>
+                                <button mat-button (click)="setFilter(iso.key)">{{iso.key}}</button>
+                            </td>
+                            <td *ngFor="let exp of stats.exposures" class="number">
+                                <button mat-mini-fab color="primary" *ngIf="iso.value[exp]" (click)="setFilter(iso.key, exp)">
+                                {{iso.value[exp] ?? 0 | number}}</button>
+                                <button mat-mini-fab disabled *ngIf="!iso.value[exp]">0</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button mat-button (click)="setFilter(undefined, undefined)">Clear filter</button>
+            </mat-card-content>
+        </mat-card>
+    </div> <!-- first fx column -->
+    <div class="container" fxFlex=60 fxLayout="column" fxLayout.xs="row" fxLayoutGap="0.5%" fxLayoutAlign="space-around none">
+        <mat-card>
+            <mat-card-header>
+                Images
+            </mat-card-header>
+            <mat-card-content>
+                <table mat-table fxFill [dataSource]="images" class="mat-elevation-z8">
+                    <ng-container matColumnDef="ordinal">
+                        <th mat-header-cell *matHeaderCellDef>Ord</th>
+                        <td mat-cell *matCellDef="let image">{{image.ordinal}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="thumbnail">
+                        <th mat-header-cell *matHeaderCellDef>Thumbnail</th>
+                        <td mat-cell *matCellDef="let image"><img [src]="'/thumbs/' + album.unique_name + '/' + image.fname" /></td>
+                    </ng-container>
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef>Name</th>
+                        <td mat-cell *matCellDef="let image">{{image.fname}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="iso">
+                        <th mat-header-cell *matHeaderCellDef>ISO</th>
+                        <td mat-cell *matCellDef="let image">{{image.iso | number}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="exposure">
+                        <th mat-header-cell *matHeaderCellDef>Exposure</th>
+                        <td mat-cell *matCellDef="let image">{{image.exposure}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="sequence">
+                        <th mat-header-cell *matHeaderCellDef>Sequence</th>
+                        <td mat-cell *matCellDef="let image">seq</td>
+                    </ng-container>
+                    <ng-container matColumnDef="notes">
+                        <th mat-header-cell *matHeaderCellDef>Notes</th>
+                        <td mat-cell *matCellDef="let image">notes</td>
+                    </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
-</mat-card-content>
-</mat-card>
-</div>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </mat-card-content>
+        </mat-card>
+    </div>
 </div>
