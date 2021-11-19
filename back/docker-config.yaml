@@ -1,0 +1,17 @@
+paths:
+  thumbs: "/data/thumbs"
+  exifdb: "/data/exifs"
+  notes: "/data/notes"
+albums:
+  - path: "/albums/"
+    glob: "*.CR3"
+    recursive: yes
+defaults:
+  thumbnail:
+    ext: "jpg"
+    size: "200x200"
+    tool: "convert"
+  exif:
+    tool: "/usr/bin/vendor_perl/exiftool"
+    iso: "ISO"
+    exposure: "ExposureTime"

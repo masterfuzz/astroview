@@ -68,6 +68,8 @@ class Album:
         self.sequences = []
         self.image_notes = {}
 
+    def __len__(self): return len(self.images)
+
     def detail(self):
         return {
             "path": self.path,
@@ -125,6 +127,9 @@ class Album:
             unique_exp.add(image.exposure)
         return unique_exp, by_iso
 
+    def __repr__(self) -> str:
+        return f"<Album: {self.path} ({len(self)})>"
+
     @property
     def remote_glob(self):
         return os.path.join(self.path, self.glob)
@@ -150,12 +155,21 @@ class Album:
 class Library:
     def __init__(self, paths, albums, defaults):
         self.paths = paths
-        self.albums = [Album(home=self, **cfg) for cfg in albums]
+        self.albums = list(self._load_albums(albums))
         self.defaults = defaults
 
         self._make_paths()
         for album in self.albums:
             self.load_exifs(album)
+
+    def _load_albums(self, albums):
+        for spec in albums:
+            if spec.get("recursive"):
+                for path in next(os.walk(spec['path']), (None, [], None))[1]:
+                    album = Album(home=self, path=os.path.join(spec['path'], path), glob=spec['glob'])
+                    yield album
+            else:
+                yield Album(home=self, **spec)
 
     def _make_paths(self):
         os.makedirs(self.paths['thumbs'], exist_ok=True)
@@ -181,12 +195,19 @@ class Library:
     def load_exifs(self, album: Album, load_notes=True):
         if not os.path.exists(album.exif_path):
             print("generating exifs")
-            subprocess.run(f"{self.exif_tool} {album.remote_glob} -json > {album.exif_path}", shell=True, check=True)
-        with open(album.exif_path) as fh:
-            album.images = [Image(album, ex) for ex in json.load(fh)]
-        if load_notes:
-            album.load_notes()
-        print(f"loaded exifs for {album.unique_name}")
+            res = subprocess.run(f"{self.exif_tool} {album.remote_glob} -json > {album.exif_path}", shell=True)
+            if res.returncode != 0:
+                print(f"error loading exifs for {album}")
+                return
+        try:
+            with open(album.exif_path) as fh:
+                album.images = [Image(album, ex) for ex in json.load(fh)]
+            if load_notes:
+                album.load_notes()
+            print(f"loaded exifs for {album.unique_name}")
+        except Exception as e:
+            print(f"Error loading exif or notes for {album}")
+            print(e)
 
     def make_all_thumbnails(self, pbar=True):
         for album in self.albums:

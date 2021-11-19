@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { AlbumDetail } from '../album-detail';
+import { AlbumNoteDialogComponent } from '../album-note-dialog/album-note-dialog.component';
+import { AlbumSequenceDialogComponent } from '../album-sequence-dialog/album-sequence-dialog.component';
 import { AlbumStats } from '../album-stats';
 import { AlbumService } from '../album.service';
 import { ImageDetail } from '../image-detail';
+import { YesNoDialogComponent } from '../yes-no-dialog/yes-no-dialog.component';
 
 @Component({
   selector: 'app-album-detail',
@@ -14,7 +18,8 @@ export class AlbumDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private albumService: AlbumService
+    private albumService: AlbumService,
+    public dialogService: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -58,6 +63,51 @@ export class AlbumDetailComponent implements OnInit {
     this.filter_exposure = exposure;
 
     this.getImages(this.album.unique_name);
+  }
+
+  openAddNoteDialog(): void {
+    const dialogRef = this.dialogService.open(AlbumNoteDialogComponent, {
+      width: '250px',
+      data: ""
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.album.notes.push(result)
+    });
+  }
+
+  openEditNoteDialog(index: any): void {
+    const dialogRef = this.dialogService.open(AlbumNoteDialogComponent, {
+      width: '250px',
+      data: this.album.notes[index]
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.album.notes[index] = result
+    });
+  }
+
+  openAddSequenceDialog(): void {
+    const dialogRef = this.dialogService.open(AlbumSequenceDialogComponent, {
+      width: '250px',
+      data: ""
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+  
+  openDelSequenceDialog(): void {
+    const dialogRef = this.dialogService.open(YesNoDialogComponent, {
+      width: '250px',
+      data: ""
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 
 

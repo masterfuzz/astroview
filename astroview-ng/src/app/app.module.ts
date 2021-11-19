@@ -15,13 +15,23 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { AlbumNoteDialogComponent } from './album-note-dialog/album-note-dialog.component';
+import { AlbumSequenceDialogComponent } from './album-sequence-dialog/album-sequence-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { FormsModule } from '@angular/forms';
+import { YesNoDialogComponent } from './yes-no-dialog/yes-no-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AlbumComponent,
-    AlbumDetailComponent
+    AlbumDetailComponent,
+    AlbumNoteDialogComponent,
+    AlbumSequenceDialogComponent,
+    YesNoDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +45,11 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatGridListModule,
     MatToolbarModule,
     MatSidenavModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
